@@ -1,0 +1,13 @@
+* text=auto
+
+*.js eol=lf
+*.css eol=lf
+*.svg eol=lf
+*.png binary
+*.html eol=lf
+
+*.json eol=lf
+yarn.lock eol=lf
+
+.gitignore eol=lf
+.gitattributes text eol=lf
