@@ -53,7 +53,7 @@ steps:
       upstream_name: origin
       temporary_base: .tmp
       ssh_key:
-        from_secret: DEPLOY_KEY
+        from_secret: GAMETOOLS_DEPLOY_KEY
 
 
 
