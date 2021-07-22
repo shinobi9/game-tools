@@ -44,15 +44,14 @@ steps:
         - success
 
   - name: publish
-    image: plugins/gh-pages:linux-amd64
+    image: appleboy/drone-git-push
     pull: if-not-exists
     settings:
-      target_branch: gh-pages
-      pages_directory: public/
-      remote_url: git@github.com:shinobi9/game-tools.git
-      upstream_name: origin
-      temporary_base: .tmp
-      force-push: true
+      remote: git@github.com:shinobi9/game-tools.git
+      path: ./build/
+      branch: gh-pages
+      local_ref: gh-pages
+      force: true
       ssh_key:
         from_secret: GAMETOOLS_DEPLOY_KEY
 
