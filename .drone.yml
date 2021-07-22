@@ -1,0 +1,28 @@
+kind: pipeline
+type: docker
+name: default
+
+trigger:
+  branch:
+    - master
+  event:
+    - push
+
+steps:
+  - name: build
+    image: node:14.10.0
+    commands:
+      - npm config set registry https://registry.npm.taobao.org
+      - npm install -g yarn
+      - yarn config set registry https://registry.npm.taobao.org
+      - yarn build
+  - name: publish
+    image: plugins/gh-pages
+    settings:
+      target_branch: gh-pages
+      pages_directory: public/
+      remote_url: git@github.com:shinobi9/game-tools.git
+      upstream_name: origin
+      temporary_base: .tmp
+      ssh_key:
+        from_secret: DEPLOY_KEY

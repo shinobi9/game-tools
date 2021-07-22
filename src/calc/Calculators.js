@@ -124,9 +124,10 @@ const realityPool = new Map([
  */
 
 function calcMaxHpDecrease(rateMaxHp, shieldLevel) {
-    return math.evaluate(`
-    ( ${rateMaxHp} / ${TEN_THOUSAND} + 1 ) * ${MAX_HP_DECREASE_POWER} * ${PER_LEVEL_HP_BONUS} ^ ${shieldLevel}
-    `)
+    return math.chain(rateMaxHp).divide(TEN_THOUSAND).add(1)
+        .multiply(MAX_HP_DECREASE_POWER)
+        .multiply(math.pow(PER_LEVEL_HP_BONUS, shieldLevel))
+        .done()
 }
 
 
@@ -136,9 +137,10 @@ function calcMaxHpDecrease(rateMaxHp, shieldLevel) {
  * @param {int} shieldLevel 
  */
 function calcCapacity(rateCapacity, shieldLevel) {
-    return math.evaluate(`
-    ( ${rateCapacity} / ${TEN_THOUSAND} + 1 ) * ${CAPACITY_POWER} * ${PER_LEVEL_HP_BONUS} ^ ${shieldLevel}
-    `)
+    return math.chain(rateCapacity).divide(TEN_THOUSAND).add(1)
+        .multiply(CAPACITY_POWER)
+        .multiply(math.pow(PER_LEVEL_HP_BONUS, shieldLevel))
+        .done()
 }
 
 /**
@@ -148,15 +150,11 @@ function calcCapacity(rateCapacity, shieldLevel) {
  * @returns 
  */
 function calcSpeed(rateSpeed, shieldLevel) {
-    let speedResult = math.evaluate(`${rateSpeed} / ${TEN_THOUSAND}`)
+    let speedResult = math.divide(rateSpeed, TEN_THOUSAND)
     if (speedResult >= 0) {
-        speedResult = math.evaluate(`
-        ${SPEED_POWER} * ${PER_LEVEL_HP_BONUS} ^ ${shieldLevel} * ( ${speedResult} + 1 )
-        `)
+        speedResult = math.chain(SPEED_POWER).multiply(math.pow(PER_LEVEL_HP_BONUS, shieldLevel)).multiply(math.add(speedResult, 1)).done()
     } else {
-        speedResult = math.evaluate(`
-        ${SPEED_POWER} * ${PER_LEVEL_HP_BONUS} ^ ${shieldLevel} / ( |${speedResult}| + 1 )
-        `)
+        speedResult = math.chain(SPEED_POWER).multiply(math.pow(PER_LEVEL_HP_BONUS, shieldLevel)).divide(math.add(math.abs(speedResult), 1)).done()
     }
     return speedResult;
 }
@@ -166,15 +164,11 @@ function calcSpeed(rateSpeed, shieldLevel) {
  * @returns 
  */
 function calcDelay(rateDelay) {
-    let delayResult = math.evaluate(`${rateDelay} / ${TEN_THOUSAND}`)
+    let delayResult = math.divide(rateDelay, TEN_THOUSAND)
     if (delayResult >= 0) {
-        delayResult = math.evaluate(`
-            ${DELAY_POWER} * ( ${delayResult} + 1 )
-        `)
+        delayResult = math.multiply(DELAY_POWER, math.add(delayResult, 1))
     } else {
-        delayResult = math.evaluate(`
-            |${delayResult}| + 1
-        `)
+        delayResult = math.add(math.abs(delayResult), 1)
     }
     return delayResult;
 }
@@ -186,9 +180,10 @@ function calcDelay(rateDelay) {
  * @returns 
  */
 function calcMaxHpIncrease(rateMaxHpIncrease, moduleLevel) {
-    return math.evaluate(`
-        ( ${rateMaxHpIncrease} / ${HUNDRED} + 1 ) * ${MAX_HP_INCREASE_POWER} * ${PER_LEVEL_HP_BONUS} ^ ${moduleLevel}
-    `)
+    return math.chain(rateMaxHpIncrease).divide(HUNDRED).add(1)
+        .multiply(MAX_HP_INCREASE_POWER)
+        .multiply(math.pow(PER_LEVEL_HP_BONUS, moduleLevel))
+        .done()
 }
 
 /**
@@ -198,9 +193,10 @@ function calcMaxHpIncrease(rateMaxHpIncrease, moduleLevel) {
  * @returns 
  */
 function calcRecovery(rateRecovery, moduleLevel) {
-    return math.evaluate(`
-    ( ${rateRecovery} / ${HUNDRED} + 1 ) * ${RECOVERY_POWER} * ${PER_LEVEL_HP_BONUS} ^ ${moduleLevel}
-`)
+    return math.chain(rateRecovery).divide(HUNDRED).add(1)
+        .multiply(RECOVERY_POWER)
+        .multiply(math.pow(PER_LEVEL_HP_BONUS, moduleLevel))
+        .done()
 }
 
 /**
@@ -212,9 +208,7 @@ function calcRecovery(rateRecovery, moduleLevel) {
  * @returns 
  */
 function calcFinal(hp, maxHpDecrease, bonus, maxHpIncrease) {
-    return math.evaluate(`
-        ( ${hp} - ${maxHpDecrease} ) * ${bonus} + ${maxHpIncrease}
-    `)
+    return math.chain(hp).subtract(maxHpDecrease).multiply(bonus).add(maxHpIncrease).done()
 }
 
 /**
@@ -292,10 +286,10 @@ function calcShieldBy(alpha, beta, gamma, shieldLevel, reality) {
     let rateMaxHp = maxHpDecreaseBy(alpha, beta, gamma, reality)
     return {
         // capacity: calcCapacity(rateCapacity, shieldLevel),
-        capacity: format(calcCapacity(rateCapacity, shieldLevel)),
-        speed: format(calcSpeed(rateSpeed, shieldLevel)),
+        capacity: format(calcCapacity(rateCapacity, shieldLevel), 0),
+        speed: format(calcSpeed(rateSpeed, shieldLevel), 0),
         delay: format(calcDelay(rateDelay)),
-        maxHpDecrease: format(calcMaxHpDecrease(rateMaxHp, shieldLevel)),
+        maxHpDecrease: format(calcMaxHpDecrease(rateMaxHp, shieldLevel), 0),
     }
 }
 
@@ -309,18 +303,22 @@ function calcModuleBy(beta, gamma, moduleLevel) {
     let rateMaxHpIncrease = rateMaxHpIncreaseBy(beta)
     let rateRecovery = rateRecoveryBy(gamma)
     return {
-        maxHpIncrease: format(calcMaxHpIncrease(rateMaxHpIncrease, moduleLevel)),
-        recovery: format(calcRecovery(rateRecovery, moduleLevel)),
+        maxHpIncrease: format(calcMaxHpIncrease(rateMaxHpIncrease, moduleLevel), 0),
+        recovery: format(calcRecovery(rateRecovery, moduleLevel), 0),
     }
 }
 
+function calcFinalBy(hp, maxHpDecrease, bonus, maxHpIncrease) {
+    return format(calcFinal(hp, maxHpDecrease, bonus, maxHpIncrease), 0)
+}
 
-function format(result) {
+
+function format(result, decimal = 2) {
     // let format = math.format(result, { notation: "fixed", precision: 16 })
-    let format = math.round(result.entries[0], 2)
+    let format = math.round(result, decimal)
     return format
 }
 
 
 
-export { calcShieldBy, calcModuleBy, shieldFactories, moduleFactories, realityPool }
+export { calcShieldBy, calcModuleBy, calcFinalBy, shieldFactories, moduleFactories, realityPool }
