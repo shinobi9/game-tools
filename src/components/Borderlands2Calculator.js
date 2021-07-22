@@ -1,8 +1,8 @@
 
-import React from "react";
+import { MenuItem, TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, MenuItem } from '@material-ui/core';
-import { calcShieldBy, calcModuleBy, calcFinalBy, shieldFactories, moduleFactories, realityPool } from '../calc/Calculators'
+import React from "react";
+import { calcFinalBy, calcModuleBy, calcShieldBy, moduleFactories, realityPool, shieldFactories } from '../calc/Calculators';
 const useStyles = theme => ({
     root: {
         '& > *': {
@@ -20,12 +20,16 @@ class Borderlands2Calculator extends React.Component {
         super(props);
         this.state = {
             shieldLevel: 90,
+            shieldLevelMin: 0,
+            shieldLevelMax: 90,
             shieldAlpha: "NONE",
             shieldBeta: "NONE",
             shieldGamma: "NONE",
             shieldReality: "WHITE",
 
             moduleLevel: 90,
+            moduleLevelMin: 0,
+            moduleLevelMax: 90,
             moduleBeta: "NONE",
             moduleGamma: "NONE",
 
@@ -33,17 +37,53 @@ class Borderlands2Calculator extends React.Component {
             bonus: 1.10,
         };
     }
+    checkShieldLevel(value) {
+        let { shieldLevelMin, shieldLevelMax } = this.state
+        if (value < shieldLevelMin) {
+            this.setState({ shieldLevel: shieldLevelMin })
+            return
+        }
+        if (value > shieldLevelMax) {
+            this.setState({ shieldLevel: shieldLevelMax })
+            return
+        }
+        this.setState({ shieldLevel: value })
+    }
+    checkModuleLevel(value) {
+        let { moduleLevelMin, moduleLevelMax } = this.state
+        if (value < moduleLevelMin) {
+            this.setState({ moduleLevel: moduleLevelMin })
+            return
+        }
+        if (value > moduleLevelMax) {
+            this.setState({ moduleLevel: moduleLevelMax })
+            return
+        }
+        this.setState({ moduleLevel: value })
+    }
     handleChange(event) {
         console.debug(event.target)
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        let { name, value } = event.target
+        let checkMap = new Map([
+            ["shieldLevel", (value, _this) => _this.checkShieldLevel(value)],
+            ["moduleLevel", (value, _this) => _this.checkModuleLevel(value)],
+        ])
+        let func = checkMap.get(name)
+        console.debug(func)
+        if (func) {
+            func(value, this)
+        } else {
+            this.setState({
+                [name]: value
+            })
+        }
     }
     render() {
         const { classes } = this.props;
-        let shield = calcShieldBy(this.state.shieldAlpha, this.state.shieldBeta, this.state.shieldGamma, this.state.shieldLevel || 0, this.state.shieldReality)
-        let module = calcModuleBy(this.state.moduleBeta, this.state.moduleGamma, this.state.moduleLevel || 0)
-        let result = calcFinalBy(this.state.hp || 0, shield.maxHpDecrease, this.state.bonus || 1, module.maxHpIncrease)
+        let { shieldAlpha, shieldBeta, shieldGamma, shieldLevel, shieldReality, moduleBeta, moduleGamma, moduleLevel, hp, bonus } = this.state
+        let shield = calcShieldBy(shieldAlpha, shieldBeta, shieldGamma, shieldLevel || 0, shieldReality)
+        let module = calcModuleBy(moduleBeta, moduleGamma, moduleLevel || 0)
+        let result = calcFinalBy(hp || 0, shield.maxHpDecrease, bonus || 1, module.maxHpIncrease)
         return (
             <div>
                 <form className={classes.root} noValidate autoComplete="off" >
