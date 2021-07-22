@@ -63,6 +63,7 @@ class Borderlands2Calculator extends React.Component {
     }
     handleChange(event) {
         console.debug(event.target)
+<<<<<<< HEAD
         let { name, value } = event.target
         let checkMap = new Map([
             ["shieldLevel", (value, _this) => _this.checkShieldLevel(value)],
@@ -84,6 +85,17 @@ class Borderlands2Calculator extends React.Component {
         let shield = calcShieldBy(shieldAlpha, shieldBeta, shieldGamma, shieldLevel || 0, shieldReality)
         let module = calcModuleBy(moduleBeta, moduleGamma, moduleLevel || 0)
         let result = calcFinalBy(hp || 0, shield.maxHpDecrease, bonus || 1, module.maxHpIncrease)
+=======
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+    render() {
+        const { classes } = this.props;
+        let shield = calcShieldBy(this.state.shieldAlpha, this.state.shieldBeta, this.state.shieldGamma, this.state.shieldLevel || 0, this.state.shieldReality)
+        let module = calcModuleBy(this.state.moduleBeta, this.state.moduleGamma, this.state.moduleLevel || 0)
+        let result = calcFinalBy(this.state.hp || 0, shield.maxHpDecrease, this.state.bonus || 1, module.maxHpIncrease)
+>>>>>>> fb00aca... test drone
         return (
             <div>
                 <form className={classes.root} noValidate autoComplete="off" >
