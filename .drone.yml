@@ -20,6 +20,6 @@ steps:
     pull: if-not-exists
     settings:
       pages_directory: build
-      username: shinobi9c@outlook.com
+      username: shinobi9
       ssh_key:
         from_secret: SSH_KEY
