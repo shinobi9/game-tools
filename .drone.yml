@@ -38,6 +38,10 @@ steps:
       rebuild: true
       mount:
         - ./node_modules
+    when:
+      status:
+        - failure
+        - success
 
   - name: publish
     image: plugins/gh-pages
