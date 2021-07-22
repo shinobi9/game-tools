@@ -54,7 +54,7 @@ steps:
       temporary_base: .tmp
       force-push: true
       ssh_key:
-        from_secret: SSH_KEY
+        from_secret: GAMETOOLS_DEPLOY_KEY
 
 
 
