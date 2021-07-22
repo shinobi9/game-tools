@@ -1,7 +1,7 @@
 
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, MenuItem, Typography } from '@material-ui/core';
+import { TextField, MenuItem } from '@material-ui/core';
 import { calcShieldBy, calcModuleBy, calcFinalBy, shieldFactories, moduleFactories, realityPool } from '../calc/Calculators'
 const useStyles = theme => ({
     root: {
