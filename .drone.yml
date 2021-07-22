@@ -7,6 +7,10 @@ trigger:
     - main
   event:
     - push
+
+clone:
+  depth: 1
+
 steps:
   - name: build
     image: node:16.5.0
@@ -18,8 +22,9 @@ steps:
   - name: publish
     image: plugins/gh-pages
     pull: if-not-exists
+    environment:
+      DRONE_REMOTE_URL: git@github.com:shinobi9/game-tools.git
     settings:
       pages_directory: build
-      username: shinobi9
       ssh_key:
         from_secret: SSH_KEY
