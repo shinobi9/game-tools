@@ -19,6 +19,6 @@ steps:
     image: plugins/gh-pages
     pull: if-not-exists
     settings:
-      pages_directory: dist
+      pages_directory: build
       ssh_key:
         from_secret: SSH_KEY
