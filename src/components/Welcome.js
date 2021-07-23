@@ -137,7 +137,7 @@ export default function Welcome() {
           <Link className={classes.link} to="/borderlands2-calculator" >
             <ListItem button key={"无主压血计算器"}>
               <ListItemIcon><InboxIcon /> </ListItemIcon>
-              <ListItemText primary={"无主"} ></ListItemText>
+              <ListItemText primary={"无主"} />
               {/* <Link to="/borderlands2-calculator" /> */}
             </ListItem>
           </Link>

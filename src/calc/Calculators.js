@@ -1,7 +1,6 @@
 import * as math from 'mathjs'
 
 
-
 const HUNDRED = 100
 const PER_LEVEL_HP_BONUS = 1.13
 const SPEED_POWER = 10.24
@@ -134,7 +133,7 @@ function calcMaxHpDecrease(rateMaxHp, shieldLevel) {
 /**
  * 
  * @param {int} rateCapacity 
- * @param {int} shieldLevel 
+ * @param {int} shieldLevel
  */
 function calcCapacity(rateCapacity, shieldLevel) {
     return math.chain(rateCapacity).divide(TEN_THOUSAND).add(1)
@@ -212,10 +211,11 @@ function calcFinal(hp, maxHpDecrease, bonus, maxHpIncrease) {
 }
 
 /**
- * 
- * @param {string} alpha 
- * @param {string} beta 
- * @param {string} gamma 
+ *
+ * @param {string} alpha
+ * @param {string} beta
+ * @param {string} gamma
+ * @param {string} reality
  */
 function rateCapacityBy(alpha, beta, gamma, reality) {
     return shieldFactories.get(alpha).capacity + shieldFactories.get(beta).capacity + shieldFactories.get(gamma).capacity + realityPool.get(reality).capacity + CAPACITY_OFFSET
@@ -227,6 +227,7 @@ function rateCapacityBy(alpha, beta, gamma, reality) {
  * @param {string} alpha 
  * @param {string} beta 
  * @param {string} gamma 
+ * @param {string} reality
  */
 function rateSpeedBy(alpha, beta, gamma, reality) {
     return shieldFactories.get(alpha).speed + shieldFactories.get(beta).speed + shieldFactories.get(gamma).speed + realityPool.get(reality).speed
@@ -245,10 +246,11 @@ function rateDelayBy(alpha, beta, gamma) {
 
 
 /**
- * 
- * @param {string} alpha 
- * @param {string} beta 
- * @param {string} gamma 
+ *
+ * @param {string} alpha
+ * @param {string} beta
+ * @param {string} gamma
+ * @param {string} reality
  */
 function maxHpDecreaseBy(alpha, beta, gamma, reality) {
     return shieldFactories.get(alpha).maxHpDecrease + shieldFactories.get(beta).maxHpDecrease + shieldFactories.get(gamma).maxHpDecrease + realityPool.get(reality).maxHpDecrease
@@ -264,7 +266,7 @@ function rateRecoveryBy(gamma) {
 
 /**
  * 
- * @param {string} gamma 
+ * @param {string} beta
  */
 function rateMaxHpIncreaseBy(beta) {
     return moduleFactories.beta.get(beta).maxHpIncrease
@@ -274,10 +276,12 @@ function rateMaxHpIncreaseBy(beta) {
 
 
 /**
- * 
- * @param {string} alpha 
- * @param {string} beta 
- * @param {string} gamma 
+ *
+ * @param {string} alpha
+ * @param {string} beta
+ * @param {string} gamma
+ * @param {int} shieldLevel
+ * @param {string} reality
  */
 function calcShieldBy(alpha, beta, gamma, shieldLevel, reality) {
     let rateCapacity = rateCapacityBy(alpha, beta, gamma, reality)
@@ -294,10 +298,10 @@ function calcShieldBy(alpha, beta, gamma, shieldLevel, reality) {
 }
 
 /**
- * 
- * @param {string} alpha 
- * @param {string} beta 
- * @param {string} gamma 
+ *
+ * @param {string} beta
+ * @param {string} gamma
+ * @param {int} moduleLevel
  */
 function calcModuleBy(beta, gamma, moduleLevel) {
     let rateMaxHpIncrease = rateMaxHpIncreaseBy(beta)
@@ -315,8 +319,7 @@ function calcFinalBy(hp, maxHpDecrease, bonus, maxHpIncrease) {
 
 function format(result, decimal = 2) {
     // let format = math.format(result, { notation: "fixed", precision: 16 })
-    let format = math.round(result, decimal)
-    return format
+    return math.round(result, decimal)
 }
 
 
