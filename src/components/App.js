@@ -4,7 +4,8 @@ import {
 } from "react-router-dom";
 
 import Welcome from './Welcome'
-import Borderlands2Calculator from './Borderlands2Calculator'
+import Calculator from './borderlands2/Calculator'
+import BigOil from './payday2/BigOil'
 
 export default function App() {
     return (
@@ -13,7 +14,10 @@ export default function App() {
                 <Welcome>
                     <Switch>
                         <Route path="/borderlands2/calculator">
-                            <Borderlands2Calculator />
+                            <Calculator />
+                        </Route>
+                        <Route path="/payday2/bigoil">
+                            <BigOil />
                         </Route>
                     </Switch>
                 </Welcome>

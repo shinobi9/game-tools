@@ -2,7 +2,7 @@
 import { MenuItem, TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import React from "react";
-import { calcFinalBy, calcModuleBy, calcShieldBy, moduleFactories, realityPool, shieldFactories } from '../calc/Calculators';
+import { calcFinalBy, calcModuleBy, calcShieldBy, moduleFactories, realityPool, shieldFactories } from '../../misc/SheildAndModuleCalculator';
 const useStyles = theme => ({
     root: {
         '& > *': {
@@ -15,7 +15,7 @@ const useStyles = theme => ({
     }
 });
 
-class Borderlands2Calculator extends React.Component {
+class Calculator extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -176,4 +176,4 @@ class Borderlands2Calculator extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(Borderlands2Calculator);
+export default withStyles(useStyles)(Calculator);
