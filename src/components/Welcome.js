@@ -7,7 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -77,11 +76,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
   },
   link: {
-    textDecoration: "none"
+    textDecoration: "none",
+    color: "black"
   }
 }));
 
-export default function Welcome() {
+export default function Welcome(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -114,7 +114,7 @@ export default function Welcome() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            Game Tools
           </Typography>
         </Toolbar>
       </AppBar>
@@ -132,34 +132,15 @@ export default function Welcome() {
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-        <Divider />
         <List>
-          <Link className={classes.link} to="/borderlands2-calculator" >
+          <Link className={classes.link} to="/borderlands2/calculator" >
             <ListItem button key={"无主压血计算器"}>
               <ListItemIcon><InboxIcon /> </ListItemIcon>
               <ListItemText primary={"无主"} />
               {/* <Link to="/borderlands2-calculator" /> */}
             </ListItem>
           </Link>
-          <Divider />
         </List>
-        {/* <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
-        <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -167,12 +148,7 @@ export default function Welcome() {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Typography paragraph>
-          Lorem
-        </Typography>
-        <Typography paragraph>
-          Consequat
-        </Typography>
+        {props.children}
       </main>
     </div >
   );
