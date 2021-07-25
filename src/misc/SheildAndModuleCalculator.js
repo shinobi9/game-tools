@@ -418,6 +418,7 @@ function doForEach(shieldLevel, moduleLevel, alpha, beta, gamma, reality, betaMo
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function calcEachCombinationAsync(hp, bonus, limit = 3000) {
     setTimeout(() => calcEachCombination(hp, bonus, limit = 3000), 0)
 }
