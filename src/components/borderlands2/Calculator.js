@@ -1,4 +1,4 @@
-import {MenuItem, TextField} from '@material-ui/core';
+import {MenuItem, TextField, Grid, Divider} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import React from "react";
 import {
@@ -17,8 +17,11 @@ const useStyles = theme => ({
             width: '25ch',
         },
     },
-    text: {
-        margin: theme.spacing(1)
+    ul: {
+        // margin: theme.spacing(1),
+        listStyleType: "none",
+        padding: 0,
+        margin: 10,
     }
 });
 
@@ -108,95 +111,122 @@ class Calculator extends React.Component {
         let result = calcFinalBy(hp || 0, shield.maxHpDecrease, bonus || 1, module.maxHpIncrease)
         return (
             <div>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField label="护盾等级" name="shieldLevel" placeholder="护盾等级"
-                               required={true} type="number" value={this.state.shieldLevel}
-                               onChange={e => this.handleChange(e)}/>
-                    <TextField label="α" name="shieldAlpha" placeholder="α"
-                               required={true} value={this.state.shieldAlpha} onChange={e => this.handleChange(e)}
-                               select>
-                        {
-                            [...shieldFactories].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
-                            })
-                        }
-                    </TextField>
-                    <TextField label="β" name="shieldBeta" placeholder="β"
-                               required={true} value={this.state.shieldBeta} onChange={e => this.handleChange(e)}
-                               select>
-                        {
-                            [...shieldFactories].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
-                            })
-                        }
-                    </TextField>
-                    <TextField label="γ" name="shieldGamma" placeholder="γ"
-                               required={true} value={this.state.shieldGamma} onChange={e => this.handleChange(e)}
-                               select>
-                        {
-                            [...shieldFactories].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
-                            })
-                        }
-                    </TextField>
-                    <TextField label="稀有度" name="shieldReality" placeholder="稀有度"
-                               required={true} value={this.state.shieldReality} onChange={e => this.handleChange(e)}
-                               select>
-                        {
-                            [...realityPool].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
-                            })
-                        }
-                    </TextField>
-                </form>
-                <form className={classes.root} noValidate autoComplete="off">
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField label="护盾等级" name="shieldLevel" placeholder="护盾等级"
+                                       required={true} type="number" value={this.state.shieldLevel}
+                                       onChange={e => this.handleChange(e)}/>
+                            <TextField label="α" name="shieldAlpha" placeholder="α"
+                                       required={true} value={this.state.shieldAlpha}
+                                       onChange={e => this.handleChange(e)}
+                                       select>
+                                {
+                                    [...shieldFactories].map(element => {
+                                        return <MenuItem key={element[0]}
+                                                         value={element[0]}>{element[1].name}</MenuItem>
+                                    })
+                                }
+                            </TextField>
+                            <TextField label="β" name="shieldBeta" placeholder="β"
+                                       required={true} value={this.state.shieldBeta}
+                                       onChange={e => this.handleChange(e)}
+                                       select>
+                                {
+                                    [...shieldFactories].map(element => {
+                                        return <MenuItem key={element[0]}
+                                                         value={element[0]}>{element[1].name}</MenuItem>
+                                    })
+                                }
+                            </TextField>
+                            <TextField label="γ" name="shieldGamma" placeholder="γ"
+                                       required={true} value={this.state.shieldGamma}
+                                       onChange={e => this.handleChange(e)}
+                                       select>
+                                {
+                                    [...shieldFactories].map(element => {
+                                        return <MenuItem key={element[0]}
+                                                         value={element[0]}>{element[1].name}</MenuItem>
+                                    })
+                                }
+                            </TextField>
+                            <TextField label="稀有度" name="shieldReality" placeholder="稀有度"
+                                       required={true} value={this.state.shieldReality}
+                                       onChange={e => this.handleChange(e)}
+                                       select>
+                                {
+                                    [...realityPool].map(element => {
+                                        return <MenuItem key={element[0]}
+                                                         value={element[0]}>{element[1].name}</MenuItem>
+                                    })
+                                }
+                            </TextField>
+                        </form>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <form className={classes.root} noValidate autoComplete="off">
 
-                    <TextField label="模组等级" name="moduleLevel" placeholder="模组等级"
-                               required={true} type="number" value={this.state.moduleLevel}
-                               onChange={e => this.handleChange(e)}/>
+                            <TextField label="模组等级" name="moduleLevel" placeholder="模组等级"
+                                       required={true} type="number" value={this.state.moduleLevel}
+                                       onChange={e => this.handleChange(e)}/>
 
-                    <TextField label="β" name="moduleBeta" placeholder="β"
-                               required={true} value={this.state.moduleBeta} onChange={e => this.handleChange(e)}
-                               select>
-                        {
-                            [...moduleFactories.beta].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
-                            })
-                        }
-                    </TextField>
+                            <TextField label="β" name="moduleBeta" placeholder="β"
+                                       required={true} value={this.state.moduleBeta}
+                                       onChange={e => this.handleChange(e)}
+                                       select>
+                                {
+                                    [...moduleFactories.beta].map(element => {
+                                        return <MenuItem key={element[0]}
+                                                         value={element[0]}>{element[1].name}</MenuItem>
+                                    })
+                                }
+                            </TextField>
 
-                    <TextField label="γ" name="moduleGamma" placeholder="γ"
-                               required={true} value={this.state.moduleGamma} onChange={e => this.handleChange(e)}
-                               select>
-                        {
-                            [...moduleFactories.gamma].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
-                            })
-                        }
-                    </TextField>
-                </form>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField label="最大生命值" name="hp" placeholder="最大生命值"
-                               required={true} type="number" value={this.state.hp}
-                               onChange={e => this.handleChange(e)}/>
-                    <TextField label="技能加成" name="bonus" placeholder="技能加成"
-                               required={true} type="number" value={this.state.bonus}
-                               onChange={e => this.handleChange(e)}/>
-                </form>
+                            <TextField label="γ" name="moduleGamma" placeholder="γ"
+                                       required={true} value={this.state.moduleGamma}
+                                       onChange={e => this.handleChange(e)}
+                                       select>
+                                {
+                                    [...moduleFactories.gamma].map(element => {
+                                        return <MenuItem key={element[0]}
+                                                         value={element[0]}>{element[1].name}</MenuItem>
+                                    })
+                                }
+                            </TextField>
+                        </form>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField label="最大生命值" name="hp" placeholder="最大生命值"
+                                       required={true} type="number" value={this.state.hp}
+                                       onChange={e => this.handleChange(e)}/>
+                            <TextField label="技能加成" name="bonus" placeholder="技能加成"
+                                       required={true} type="number" value={this.state.bonus}
+                                       onChange={e => this.handleChange(e)}/>
+                        </form>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Divider/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <div>
+                            <ul className={classes.ul}>
+                                <li>{`护盾容量: ${shield.capacity}`} </li>
+                                <li>{`充能速率: ${shield.speed}`} </li>
+                                <li>{`充能延迟: ${shield.delay}`} </li>
+                                <li>{`扣最大生命值: ${shield.maxHpDecrease}`} </li>
+                            </ul>
+                            <ul className={classes.ul}>
+                                <li>{`护盾容量: ${module.maxHpIncrease}`} </li>
+                                <li>{`充能速率: ${module.recovery}`} </li>
 
-                <ul className={classes.text}>
-                    <li>{`护盾容量: ${shield.capacity}`} </li>
-                    <li>{`充能速率: ${shield.speed}`} </li>
-                    <li>{`充能延迟: ${shield.delay}`} </li>
-                    <li>{`扣最大生命值: ${shield.maxHpDecrease}`} </li>
-                </ul>
-                <ul className={classes.text}>
-                    <li>{`护盾容量: ${module.maxHpIncrease}`} </li>
-                    <li>{`充能速率: ${module.recovery}`} </li>
-                </ul>
-                <ul className={classes.text}>
-                    <li>{`最终血量: ${result}`} </li>
-                </ul>
+                            </ul>
+                            <ul className={classes.ul}>
+                                <li>{`最终血量: ${result}`} </li>
+                            </ul>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
         );
     }
