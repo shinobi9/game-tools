@@ -6,7 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {ListItemText, ListItem, IconButton, Typography, Toolbar, Drawer, Collapse} from '@material-ui/core';
+import {ListItemText, ListItem, IconButton, Typography, Toolbar, Drawer, Collapse, Divider} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -97,11 +97,13 @@ export default function Welcome(props) {
 
     const [borderlands2, setBorderlands2] = React.useState(false);
     const [payday2, setPayday2] = React.useState(false);
+    const [minecraft, setMinecraft] = React.useState(false);
 
     const handleExpandClick = (e,menu) => {
         let map = new Map([
             ["borderlands2", () => setBorderlands2(!borderlands2)],
             ["payday2", () => setPayday2(!payday2)],
+            ["minecraft", () => setMinecraft(!minecraft)],
         ])
         let func = map.get(menu)
         if (func) {
@@ -148,6 +150,7 @@ export default function Welcome(props) {
                         {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                     </IconButton>
                 </div>
+                <Divider />
                 <Link className={classes.link} to="#">
                     <ListItem button key={"borderlands2"} onClick={(e) => handleExpandClick(e,"borderlands2")}>
                         <ListItemText primary={"borderlands2"}/>
@@ -160,6 +163,7 @@ export default function Welcome(props) {
                         </ListItem>
                     </Link>
                 </Collapse>
+                <Divider />
                 <Link className={classes.link} to="#">
                     <ListItem button key={"payday2"} onClick={(e) => handleExpandClick(e,"payday2")}>
                         <ListItemText primary={"payday2"}/>
@@ -169,6 +173,24 @@ export default function Welcome(props) {
                     <Link className={classes.link} to="/payday2/bigoil">
                         <ListItem button key={"payday2-bigoil"}>
                             <ListItemText primary={"· 大油引擎"}/>
+                        </ListItem>
+                    </Link>
+                </Collapse>
+                <Divider />
+                <Link className={classes.link} to="#">
+                    <ListItem button key={"minecraft"} onClick={(e) => handleExpandClick(e,"minecraft")}>
+                        <ListItemText primary={"minecraft"}/>
+                    </ListItem>
+                </Link>
+                <Collapse in={minecraft} timeout="auto" unmountOnExit>
+                    <Link className={classes.link} to="/minecraft/village">
+                        <ListItem button key={"minecraft-village"}>
+                            <ListItemText primary={"· 村民交易"}/>
+                        </ListItem>
+                    </Link>
+                    <Link className={classes.link} to="/minecraft/actuallyaddons">
+                        <ListItem button key={"minecraft-actuallyaddons"}>
+                            <ListItemText primary={"· 实用拓展"}/>
                         </ListItem>
                     </Link>
                 </Collapse>
