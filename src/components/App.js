@@ -19,7 +19,8 @@ export default function App() {
                             <Route path="/borderlands2/calculator" component={() => <Calculator/>}/>
                             <Route path="/payday2/bigoil" component={() => <BigOil/>}/>
                             <Route path="/minecraft/village" component={() => <Viewer images={village}/>}/>
-                            <Route path="/minecraft/actuallyaddons" component={() => <Viewer images={actuallyAddons}/>}/>
+                            <Route path="/minecraft/actuallyaddons"
+                                   component={() => <Viewer images={actuallyAddons}/>}/>
                         </Switch>
                     </Welcome>
                 </Route>

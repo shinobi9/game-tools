@@ -99,7 +99,7 @@ export default function Welcome(props) {
     const [payday2, setPayday2] = React.useState(false);
     const [minecraft, setMinecraft] = React.useState(false);
 
-    const handleExpandClick = (e,menu) => {
+    const handleExpandClick = (e, menu) => {
         let map = new Map([
             ["borderlands2", () => setBorderlands2(!borderlands2)],
             ["payday2", () => setPayday2(!payday2)],
@@ -150,9 +150,9 @@ export default function Welcome(props) {
                         {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                     </IconButton>
                 </div>
-                <Divider />
+                <Divider/>
                 <Link className={classes.link} to="#">
-                    <ListItem button key={"borderlands2"} onClick={(e) => handleExpandClick(e,"borderlands2")}>
+                    <ListItem button key={"borderlands2"} onClick={(e) => handleExpandClick(e, "borderlands2")}>
                         <ListItemText primary={"borderlands2"}/>
                     </ListItem>
                 </Link>
@@ -163,9 +163,9 @@ export default function Welcome(props) {
                         </ListItem>
                     </Link>
                 </Collapse>
-                <Divider />
+                <Divider/>
                 <Link className={classes.link} to="#">
-                    <ListItem button key={"payday2"} onClick={(e) => handleExpandClick(e,"payday2")}>
+                    <ListItem button key={"payday2"} onClick={(e) => handleExpandClick(e, "payday2")}>
                         <ListItemText primary={"payday2"}/>
                     </ListItem>
                 </Link>
@@ -176,9 +176,9 @@ export default function Welcome(props) {
                         </ListItem>
                     </Link>
                 </Collapse>
-                <Divider />
+                <Divider/>
                 <Link className={classes.link} to="#">
-                    <ListItem button key={"minecraft"} onClick={(e) => handleExpandClick(e,"minecraft")}>
+                    <ListItem button key={"minecraft"} onClick={(e) => handleExpandClick(e, "minecraft")}>
                         <ListItemText primary={"minecraft"}/>
                     </ListItem>
                 </Link>

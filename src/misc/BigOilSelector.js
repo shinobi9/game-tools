@@ -35,5 +35,5 @@ function chooseEngineBy(gas, tubeCount, pressure) {
     return result.filter(res => !errorEngines.includes(res))
 }
 
-export { chooseEngineBy }
+export {chooseEngineBy}
 // console.log(chooseEngineBy("Deuterium", "3xH", ">=5783"))

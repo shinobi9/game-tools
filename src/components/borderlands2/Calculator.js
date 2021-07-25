@@ -1,8 +1,15 @@
-
-import { MenuItem, TextField } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import {MenuItem, TextField} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
 import React from "react";
-import { calcFinalBy, calcModuleBy, calcShieldBy, moduleFactories, realityPool, shieldFactories } from '../../misc/SheildAndModuleCalculator';
+import {
+    calcFinalBy,
+    calcModuleBy,
+    calcShieldBy,
+    moduleFactories,
+    realityPool,
+    shieldFactories
+} from '../../misc/SheildAndModuleCalculator';
+
 const useStyles = theme => ({
     root: {
         '& > *': {
@@ -37,33 +44,36 @@ class Calculator extends React.Component {
             bonus: 1.10,
         };
     }
+
     checkShieldLevel(value) {
-        let { shieldLevelMin, shieldLevelMax } = this.state
+        let {shieldLevelMin, shieldLevelMax} = this.state
         if (value < shieldLevelMin) {
-            this.setState({ shieldLevel: shieldLevelMin })
+            this.setState({shieldLevel: shieldLevelMin})
             return
         }
         if (value > shieldLevelMax) {
-            this.setState({ shieldLevel: shieldLevelMax })
+            this.setState({shieldLevel: shieldLevelMax})
             return
         }
-        this.setState({ shieldLevel: value })
+        this.setState({shieldLevel: value})
     }
+
     checkModuleLevel(value) {
-        let { moduleLevelMin, moduleLevelMax } = this.state
+        let {moduleLevelMin, moduleLevelMax} = this.state
         if (value < moduleLevelMin) {
-            this.setState({ moduleLevel: moduleLevelMin })
+            this.setState({moduleLevel: moduleLevelMin})
             return
         }
         if (value > moduleLevelMax) {
-            this.setState({ moduleLevel: moduleLevelMax })
+            this.setState({moduleLevel: moduleLevelMax})
             return
         }
-        this.setState({ moduleLevel: value })
+        this.setState({moduleLevel: value})
     }
+
     handleChange(event) {
         console.debug(event.target)
-        let { name, value } = event.target
+        let {name, value} = event.target
         let checkMap = new Map([
             ["shieldLevel", (value, _this) => _this.checkShieldLevel(value)],
             ["moduleLevel", (value, _this) => _this.checkModuleLevel(value)],
@@ -78,84 +88,100 @@ class Calculator extends React.Component {
             })
         }
     }
+
     render() {
-        const { classes } = this.props;
-        let { shieldAlpha, shieldBeta, shieldGamma, shieldLevel, shieldReality, moduleBeta, moduleGamma, moduleLevel, hp, bonus } = this.state
+        const {classes} = this.props;
+        let {
+            shieldAlpha,
+            shieldBeta,
+            shieldGamma,
+            shieldLevel,
+            shieldReality,
+            moduleBeta,
+            moduleGamma,
+            moduleLevel,
+            hp,
+            bonus
+        } = this.state
         let shield = calcShieldBy(shieldAlpha, shieldBeta, shieldGamma, shieldLevel || 0, shieldReality)
         let module = calcModuleBy(moduleBeta, moduleGamma, moduleLevel || 0)
         let result = calcFinalBy(hp || 0, shield.maxHpDecrease, bonus || 1, module.maxHpIncrease)
         return (
             <div>
-                <form className={classes.root} noValidate autoComplete="off" >
+                <form className={classes.root} noValidate autoComplete="off">
                     <TextField label="护盾等级" name="shieldLevel" placeholder="护盾等级"
-                        required={true} type="number" value={this.state.shieldLevel} onChange={e => this.handleChange(e)} />
+                               required={true} type="number" value={this.state.shieldLevel}
+                               onChange={e => this.handleChange(e)}/>
                     <TextField label="α" name="shieldAlpha" placeholder="α"
-                        required={true} value={this.state.shieldAlpha} onChange={e => this.handleChange(e)}
-                        select >
+                               required={true} value={this.state.shieldAlpha} onChange={e => this.handleChange(e)}
+                               select>
                         {
                             [...shieldFactories].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]} >{element[1].name}</MenuItem>
+                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
                             })
                         }
                     </TextField>
                     <TextField label="β" name="shieldBeta" placeholder="β"
-                        required={true} value={this.state.shieldBeta} onChange={e => this.handleChange(e)}
-                        select >
+                               required={true} value={this.state.shieldBeta} onChange={e => this.handleChange(e)}
+                               select>
                         {
                             [...shieldFactories].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]} >{element[1].name}</MenuItem>
+                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
                             })
                         }
                     </TextField>
                     <TextField label="γ" name="shieldGamma" placeholder="γ"
-                        required={true} value={this.state.shieldGamma} onChange={e => this.handleChange(e)}
-                        select >
+                               required={true} value={this.state.shieldGamma} onChange={e => this.handleChange(e)}
+                               select>
                         {
                             [...shieldFactories].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]} >{element[1].name}</MenuItem>
+                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
                             })
                         }
                     </TextField>
                     <TextField label="稀有度" name="shieldReality" placeholder="稀有度"
-                        required={true} value={this.state.shieldReality} onChange={e => this.handleChange(e)}
-                        select >
+                               required={true} value={this.state.shieldReality} onChange={e => this.handleChange(e)}
+                               select>
                         {
                             [...realityPool].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]} >{element[1].name}</MenuItem>
+                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
                             })
                         }
                     </TextField>
-                </form >
-                <form className={classes.root} noValidate autoComplete="off" >
+                </form>
+                <form className={classes.root} noValidate autoComplete="off">
 
                     <TextField label="模组等级" name="moduleLevel" placeholder="模组等级"
-                        required={true} type="number" value={this.state.moduleLevel} onChange={e => this.handleChange(e)} />
+                               required={true} type="number" value={this.state.moduleLevel}
+                               onChange={e => this.handleChange(e)}/>
 
                     <TextField label="β" name="moduleBeta" placeholder="β"
-                        required={true} value={this.state.moduleBeta} onChange={e => this.handleChange(e)}
-                        select >
+                               required={true} value={this.state.moduleBeta} onChange={e => this.handleChange(e)}
+                               select>
                         {
                             [...moduleFactories.beta].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]} >{element[1].name}</MenuItem>
+                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
                             })
                         }
                     </TextField>
 
                     <TextField label="γ" name="moduleGamma" placeholder="γ"
-                        required={true} value={this.state.moduleGamma} onChange={e => this.handleChange(e)}
-                        select >
+                               required={true} value={this.state.moduleGamma} onChange={e => this.handleChange(e)}
+                               select>
                         {
                             [...moduleFactories.gamma].map(element => {
-                                return <MenuItem key={element[0]} value={element[0]} >{element[1].name}</MenuItem>
+                                return <MenuItem key={element[0]} value={element[0]}>{element[1].name}</MenuItem>
                             })
                         }
                     </TextField>
-                </form >
-                <form className={classes.root} noValidate autoComplete="off" >
+                </form>
+                <form className={classes.root} noValidate autoComplete="off">
                     <TextField label="最大生命值" name="hp" placeholder="最大生命值"
-                        required={true} type="number" value={this.state.hp} onChange={e => this.handleChange(e)} />
+                               required={true} type="number" value={this.state.hp}
+                               onChange={e => this.handleChange(e)}/>
                     <TextField label="技能加成" name="bonus" placeholder="技能加成"
-                        required={true} type="number" value={this.state.bonus} onChange={e => this.handleChange(e)} />
+                               required={true} type="number" value={this.state.bonus}
+                               onChange={e => this.handleChange(e)}/>
                 </form>
 
                 <ul className={classes.text}>

@@ -22,6 +22,7 @@ class ModuleBeta {
         this.maxHpIncrease = maxHpIncrease;
     }
 }
+
 /**
  * 单位： ‱
  * recovery 恢复速度增幅
@@ -35,7 +36,7 @@ class ModuleGamma {
 
 /**
  * 单位 ：‱
- * name 
+ * name
  * capacity 盾容增幅
  * speed 充能速率增幅
  * delay 充能延迟增幅
@@ -116,10 +117,10 @@ const realityPool = new Map([
 ])
 
 /**
- * 
- * @param {int} rateMaxHp 
- * @param {int} shieldLevel 
- * @returns 
+ *
+ * @param {int} rateMaxHp
+ * @param {int} shieldLevel
+ * @returns
  */
 
 function calcMaxHpDecrease(rateMaxHp, shieldLevel) {
@@ -131,8 +132,8 @@ function calcMaxHpDecrease(rateMaxHp, shieldLevel) {
 
 
 /**
- * 
- * @param {int} rateCapacity 
+ *
+ * @param {int} rateCapacity
  * @param {int} shieldLevel
  */
 function calcCapacity(rateCapacity, shieldLevel) {
@@ -143,10 +144,10 @@ function calcCapacity(rateCapacity, shieldLevel) {
 }
 
 /**
- * 
- * @param {int} rateSpeed 
- * @param {int} shieldLevel 
- * @returns 
+ *
+ * @param {int} rateSpeed
+ * @param {int} shieldLevel
+ * @returns
  */
 function calcSpeed(rateSpeed, shieldLevel) {
     let speedResult = math.divide(rateSpeed, TEN_THOUSAND)
@@ -157,10 +158,11 @@ function calcSpeed(rateSpeed, shieldLevel) {
     }
     return speedResult;
 }
+
 /**
- * 
- * @param {int} rateDelay 
- * @returns 
+ *
+ * @param {int} rateDelay
+ * @returns
  */
 function calcDelay(rateDelay) {
     let delayResult = math.divide(rateDelay, TEN_THOUSAND)
@@ -173,10 +175,10 @@ function calcDelay(rateDelay) {
 }
 
 /**
- * 
- * @param {int} rateMaxHpIncrease 
- * @param {int} moduleLevel 
- * @returns 
+ *
+ * @param {int} rateMaxHpIncrease
+ * @param {int} moduleLevel
+ * @returns
  */
 function calcMaxHpIncrease(rateMaxHpIncrease, moduleLevel) {
     return math.chain(rateMaxHpIncrease).divide(HUNDRED).add(1)
@@ -186,10 +188,10 @@ function calcMaxHpIncrease(rateMaxHpIncrease, moduleLevel) {
 }
 
 /**
- * 
- * @param {int} rateRecovery 
- * @param {int} moduleLevel 
- * @returns 
+ *
+ * @param {int} rateRecovery
+ * @param {int} moduleLevel
+ * @returns
  */
 function calcRecovery(rateRecovery, moduleLevel) {
     return math.chain(rateRecovery).divide(HUNDRED).add(1)
@@ -199,12 +201,12 @@ function calcRecovery(rateRecovery, moduleLevel) {
 }
 
 /**
- * 
- * @param {number} hp 
- * @param {number} maxHpDecrease 
- * @param {number} bonus 
- * @param {number} maxHpIncrease 
- * @returns 
+ *
+ * @param {number} hp
+ * @param {number} maxHpDecrease
+ * @param {number} bonus
+ * @param {number} maxHpIncrease
+ * @returns
  */
 function calcFinal(hp, maxHpDecrease, bonus, maxHpIncrease) {
     return math.chain(hp).subtract(maxHpDecrease).multiply(bonus).add(maxHpIncrease).done()
@@ -223,10 +225,10 @@ function rateCapacityBy(alpha, beta, gamma, reality) {
 
 
 /**
- * 
- * @param {string} alpha 
- * @param {string} beta 
- * @param {string} gamma 
+ *
+ * @param {string} alpha
+ * @param {string} beta
+ * @param {string} gamma
  * @param {string} reality
  */
 function rateSpeedBy(alpha, beta, gamma, reality) {
@@ -235,10 +237,10 @@ function rateSpeedBy(alpha, beta, gamma, reality) {
 
 
 /**
- * 
- * @param {string} alpha 
- * @param {string} beta 
- * @param {string} gamma 
+ *
+ * @param {string} alpha
+ * @param {string} beta
+ * @param {string} gamma
  */
 function rateDelayBy(alpha, beta, gamma) {
     return shieldFactories.get(alpha).delay + shieldFactories.get(beta).delay + shieldFactories.get(gamma).delay
@@ -257,22 +259,20 @@ function maxHpDecreaseBy(alpha, beta, gamma, reality) {
 }
 
 /**
- * 
- * @param {string} gamma 
+ *
+ * @param {string} gamma
  */
 function rateRecoveryBy(gamma) {
     return moduleFactories.gamma.get(gamma).recovery
 }
 
 /**
- * 
+ *
  * @param {string} beta
  */
 function rateMaxHpIncreaseBy(beta) {
     return moduleFactories.beta.get(beta).maxHpIncrease
 }
-
-
 
 
 /**
@@ -323,5 +323,4 @@ function format(result, decimal = 2) {
 }
 
 
-
-export { calcShieldBy, calcModuleBy, calcFinalBy, shieldFactories, moduleFactories, realityPool }
+export {calcShieldBy, calcModuleBy, calcFinalBy, shieldFactories, moduleFactories, realityPool}
