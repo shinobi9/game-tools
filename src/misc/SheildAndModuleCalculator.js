@@ -11,6 +11,7 @@ const MAX_HP_INCREASE_POWER = 16
 const RECOVERY_POWER = 0.5
 const TEN_THOUSAND = 10000
 const CAPACITY_OFFSET = 7500
+const MAX_LEVEL = 90
 
 /**
  * 单位： ‱
@@ -323,4 +324,110 @@ function format(result, decimal = 2) {
 }
 
 
-export {calcShieldBy, calcModuleBy, calcFinalBy, shieldFactories, moduleFactories, realityPool}
+function calcEachCombination(hp, bonus, limit = 3000) {
+    let results = new Set()
+    for (let a = 0; a < shieldFactories.size; a++) {
+        for (let b = 0; b < shieldFactories.size; b++) {
+            for (let c = 0; c < shieldFactories.size; c++) {
+                let result = math.pow(10, a) + math.pow(10, b) + math.pow(10, c)
+                results.add(result)
+            }
+        }
+    }
+    console.debug(results)
+    console.debug(results.size)
+    console.debug(Array.from(shieldFactories.values())[0])
+
+    let mapped = []
+
+    for (let result of results) {
+        let factories = [] // [0,0,0]
+        // console.debug(result)
+        for (let i = 0; i < shieldFactories.size; i++) {
+            // noinspection JSUnfilteredForInLoop
+            let current = math.chain(result).divide(math.pow(10, i)).mod(10).done()
+            while (current >= 1) {
+                current = current - 1
+                factories.push(i)
+            }
+        }
+        let arr = Array.from(shieldFactories.values())
+        console.debug("factories:", factories)
+        let alpha = arr[factories[0]]
+        console.debug("alpha:", alpha)
+        let beta = arr[factories[1]]
+        let gamma = arr[factories[2]]
+        mapped.push([alpha, beta, gamma])
+    }
+
+
+    let total = 0
+    // console.debug(factories)
+    for (let reality of realityPool.values()) {
+        // reality  1/4
+        for (let betaModuleFactory of moduleFactories.beta.values()) {
+            // 1/7
+            for (let shieldLevel = MAX_LEVEL; shieldLevel > 0; shieldLevel--) {
+                // 1/90
+                // shieldLevel
+                for (let moduleLevel = MAX_LEVEL; moduleLevel > 0; moduleLevel--) {
+                    //1/90
+                    //moduleLevel
+                    for (const map of mapped) {
+                        // 1/220
+                        /*console.debug(`
+                        ${shieldLevel}, ${moduleLevel}, ${JSON.stringify(alpha)}, ${JSON.stringify(alpha)}, ${JSON.stringify(alpha)}, ${JSON.stringify(reality)}, ${JSON.stringify(betaModuleFactory)}, ${hp}, ${bonus}, ${limit}
+                        `)*/
+                        let [alpha, beta, gamma] = map
+                        let hpResult = doForEach(shieldLevel, moduleLevel, alpha, beta, gamma, reality, betaModuleFactory, hp, bonus, limit)
+                        console.debug(hpResult)
+                        total++
+                    }
+                }
+            }
+        }
+
+    }
+    console.debug("total:", total)
+}
+
+function doForEach(shieldLevel, moduleLevel, alpha, beta, gamma, reality, betaModuleFactory, hpMax, bonus, limit) {
+
+    let rateMaxHp = alpha.maxHpDecrease +
+        beta.maxHpDecrease +
+        gamma.maxHpDecrease +
+        reality.maxHpDecrease
+
+    let maxHpDecreaseResult = calcMaxHpDecrease(rateMaxHp, shieldLevel)
+    let maxHpIncreaseResult = calcMaxHpIncrease(betaModuleFactory.maxHpIncrease, moduleLevel)
+    let result = calcFinalBy(hpMax, maxHpDecreaseResult, bonus, maxHpIncreaseResult)
+    if (4 <= result && result <= limit) {
+        console.debug(result)
+        return {
+            shieldLevel: shieldLevel,
+            moduleLevel: moduleLevel,
+            alpha: alpha,
+            beta: beta,
+            gamma: gamma,
+            reality: reality,
+            betaModuleFactory: betaModuleFactory,
+            hpMax: hpMax,
+            bonus: bonus,
+            result: bonus
+        }
+    }
+}
+
+function calcEachCombinationAsync(hp, bonus, limit = 3000) {
+    setTimeout(() => calcEachCombination(hp, bonus, limit = 3000), 0)
+}
+
+
+export {
+    calcShieldBy,
+    calcModuleBy,
+    calcFinalBy,
+    shieldFactories,
+    moduleFactories,
+    realityPool,
+}
