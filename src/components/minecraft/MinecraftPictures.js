@@ -6,14 +6,6 @@ const village = [
     {
         url: "https://cdn.jsdelivr.net/gh/shinobi9/cdn/gametools/minecraft/village.webp",
         title: "1.14+村民交易"
-    },
-    {
-        url: "https://cdn.jsdelivr.net/gh/shinobi9/cdn/gametools/minecraft/village.webp",
-        title: "1.14+村民交易"
-    },
-    {
-        url: "https://cdn.jsdelivr.net/gh/shinobi9/cdn/gametools/minecraft/actuallyaddons.png",
-        title: "实用拓展 充能"
     }
 ]
 
