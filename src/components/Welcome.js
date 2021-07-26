@@ -175,6 +175,11 @@ export default function Welcome(props) {
                             <ListItemText primary={"· 大油引擎"}/>
                         </ListItem>
                     </Link>
+                    <Link className={classes.link} to="/payday2/somepassword">
+                        <ListItem button key={"payday2-somepassword"}>
+                            <ListItemText primary={"· 一些密码"}/>
+                        </ListItem>
+                    </Link>
                 </Collapse>
                 <Divider/>
                 <Link className={classes.link} to="#">
