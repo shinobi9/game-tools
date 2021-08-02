@@ -99,7 +99,7 @@ class BulletPickingRateCalc extends React.Component {
                             <ul className={classes.ul}>
                                 {
                                     result.map(item => {
-                                        return <li>{`捡 ${item.bullet} 发子弹的概率为 : ${item.rate}%`} </li>
+                                        return <li key={item.bullet}>{`捡 ${item.bullet} 发子弹的概率为 : ${item.rate}%`} </li>
                                     })
                                 }
                             </ul>
