@@ -25,7 +25,7 @@ const useStyles = theme => ({
     }
 });
 
-class Calculator extends React.Component {
+class HpCalc extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -232,4 +232,4 @@ class Calculator extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(Calculator);
+export default withStyles(useStyles)(HpCalc);

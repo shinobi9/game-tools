@@ -175,6 +175,11 @@ export default function Welcome(props) {
                             <ListItemText primary={"· 大油引擎"}/>
                         </ListItem>
                     </Link>
+                    <Link className={classes.link} to="/payday2/bullet-picking-rate-calculator">
+                        <ListItem button key={"payday2-bulletpickingratecalculator"}>
+                            <ListItemText primary={"· 捡弹计算器"}/>
+                        </ListItem>
+                    </Link>
                     <Link className={classes.link} to="/payday2/somepassword">
                         <ListItem button key={"payday2-somepassword"}>
                             <ListItemText primary={"· 一些密码"}/>
